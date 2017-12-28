@@ -20,6 +20,16 @@
             </view>
         </view>
     </view>
+    <view class="box box-pack-between">
+      <view class="day border-radius purple-bg"></view>
+      <text class="day lh60">排卵</text>
+      <view class="day border-radius purple-bg"></view>
+      <text class="day lh60">易孕</text>
+      <view class="day purple-bg"></view>
+      <text class="day lh60">月经</text>
+      <view class="day border-radius purple-bg"></view>
+      <text class="day lh60">啪啪</text>
+    </view>
 </view>
 
 <view wx:if="{{showPicker}}" class="box box-tb">
