@@ -14,7 +14,12 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const getThisMonthDays = (year, month) => {
+  return new Date(year, month, 0).getDate();
+}
+
 module.exports = {
   formatTime: formatTime,
-  formatNumber: formatNumber
+  formatNumber: formatNumber,
+  getThisMonthDays: getThisMonthDays
 }

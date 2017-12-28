@@ -1,7 +1,10 @@
-//app.js
+
+const Api = require('./utils/api.js');
+const Storage = require('./utils/storage.js');
+
 App({
   onLaunch: function () {
-    //this.checkLogin();
+    this.checkLogin();
   },
   checkLogin:function(callback){
     if (this.globalData.hasLogin === false){
@@ -11,11 +14,12 @@ App({
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           wx.request({
-            url: "https://wechat.lingyin99.com/hello-baby/user/login",
+            url: Api.user.checkLogin,
             data: { code: res.code },
             success: res => {
               that.globalData.hasLogin = true;
               that.globalData.simpleUserInfo = res.data; 
+              Storage.sync.set('last_event_time', res.data.last_event_time)
               typeof callback == "function" && callback()
             }
           })
@@ -27,6 +31,7 @@ App({
   },
   globalData: {
     hasLogin: false,
-    simpleUserInfo:null
+    simpleUserInfo:null,
+    last_event_time:0
   }
 })

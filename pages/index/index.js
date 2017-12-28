@@ -1,38 +1,36 @@
 'use strict';
 
-const util = require('../../utils/util.js');
+const Util = require('../../utils/util.js');
+const Api = require('../../utils/api.js');
+const EventInfo = require('../../api/eventInfo.js');
 
 const app = getApp()
 
 let choose_year = null,
 	choose_month = null;
+
 const conf = {
 	data: {
 		hasEmptyGrid: false,
 		showPicker: false,
-    showEvent: false,
-    csrfToken : ''
+    showEvent: false
 	},
 	onLoad() {
-    wx.showLoading({
-      title: '加载中',
-    })
-
+    
 		const date = new Date();
 		const cur_year = date.getFullYear();
 		const cur_month = date.getMonth() + 1;
-		const weeks_ch = [ '日', '一', '二', '三', '四', '五', '六' ];
-		this.calculateEmptyGrids(cur_year, cur_month);
-		this.calculateDays(cur_year, cur_month);
+		const weeks_ch = [ '日', '一', '二', '三', '四', '五', '六' ]
+    this.calculateEmptyGrids(cur_year, cur_month)
 		this.setData({
 			cur_year,
 			cur_month,
 			weeks_ch
 		});
 	},
-	getThisMonthDays(year, month) {
-		return new Date(year, month, 0).getDate();
-	},
+  onReady(){
+    this.calculateDays(this.data.cur_year, this.data.cur_month);
+  },
 	getFirstDayOfWeek(year, month) {
 		return new Date(Date.UTC(year, month - 1, 1)).getDay();
 	},
@@ -55,47 +53,8 @@ const conf = {
 		}
 	},
 	calculateDays(year, month) {
-
-    let that = this
-		let days = [];
-    
-		const thisMonthDays = this.getThisMonthDays(year, month);
-
-		for (let i = 1; i <= thisMonthDays; i++) {
-			days.push({
-				day: i,
-				choosed: false
-			});
-		}
-
-    let queryMonth = year + '' + util.formatNumber(month);
-
-    app.checkLogin(_queryEvent)
-
-    function _queryEvent(){
-      wx.request({
-        url: "https://wechat.lingyin99.com/hello-baby/event/month",
-        data: { api_token: app.globalData.simpleUserInfo.api_token, month: queryMonth },
-        success: function (res) {
-          if (res.statusCode == 200 && res.data.status == 0) {
-            let data = res.data.list;
-            for (let i in days) {
-              if (i in data) {
-                days[i].makeLove = data[i]['make_love'] == undefined ? 0 : data[i]['make_love']
-                days[i].menstruation = data[i]['menstruation'] == undefined ? 0 : data[i]['menstruation']
-                days[i].pregnant = data[i]['pregnant'] == undefined ? 0 : data[i]['pregnant']
-              }
-            }
-          }
-        },
-        complete: function () {
-          that.setData({
-            days
-          });
-          wx.hideLoading();
-        }
-      });	
-    }
+    let that = this;
+    app.checkLogin(EventInfo.queryMonthEvent(that, year, month))    
 	},
 	handleCalendar(e) {
 		const handle = e.currentTarget.dataset.handle;
@@ -142,32 +101,17 @@ const conf = {
     }
     days[idx].choosed = !days[ idx ].choosed;
 
-    const that = this;
-
-    let makeLove = 0, menstruation = 0, pregnant = 0, csrfToken = '';
-    let date = this.data.cur_year + '' + util.formatNumber(this.data.cur_month) + '' + util.formatNumber(days[idx].day);
-
-    wx.request({
-      url: "https://wechat.lingyin99.com/hello-baby/event/update",
-      data: { api_token: app.globalData.simpleUserInfo.api_token,date: date},
-      success : function(res){
-        makeLove = parseInt(res.data.make_love);
-        menstruation = parseInt(res.data.menstruation);
-        pregnant = parseInt(res.data.pregnant);
-
-        that.setData({
-          days,
-          showEvent: true,
-          showPicker: false,
-          picker_year: that.data.cur_year,
-          picker_month: that.data.cur_month,
-          picker_day: days[idx].day,
-          makeLove: makeLove,
-          menstruation: menstruation,
-          pregnant: pregnant
-        });
-      }
-    });		
+    this.setData({
+      days,
+      showEvent: true,
+      showPicker: false,
+      picker_year: this.data.cur_year,
+      picker_month: this.data.cur_month,
+      picker_day: days[idx].day,
+      makeLove: parseInt(days[idx].makeLove),
+      menstruation: parseInt(days[idx].menstruation),
+      pregnant: parseInt(days[idx].pregnant)
+    });
 	},
 	chooseYearAndMonth() {
 		const cur_year = this.data.cur_year;
@@ -209,42 +153,13 @@ const conf = {
 		this.setData(o);
 	},
   switchEvent(e){
-    app.checkLogin();
-
-    const attr_name = e.currentTarget.dataset.attr;
-    const event_type = e.currentTarget.dataset.event;
-    const status = e.detail.value ? 1 : 0;
-    const date = this.data.picker_year + '' + util.formatNumber(this.data.picker_month) + '' + util.formatNumber(this.data.picker_day);
-    const that = this;
-    wx.request({
-      url: "https://wechat.lingyin99.com/hello-baby/event/update",
-      data: {
-        api_token: app.globalData.simpleUserInfo.api_token,
-        event_type: event_type,
-        status:status,
-        date:date
-      },
-      method : 'POST',
-      success:function(res){
-        if (res.statusCode == 200 && res.data.status == 0){
-          console.log("成功");
-        } else {
-          wx.showToast({
-            title: '记录失败',
-            duration: 2000
-          });
-          let o = new Object();
-          o[attr_name] = !status;
-          that.setData(o);
-        }
-      }
-    })
+    EventInfo.updateDayEevnt(this, e, this.data.picker_year, this.data.picker_month, this.data.picker_day)
   },
 	onShareAppMessage() {
 		return {
 			title: '孕宝手记',
 			desc: '简单，私密的孕期日历',
-			path: 'pages/hello-baby/index'
+			path: 'pages/index/index'
 		};
 	}
 };
