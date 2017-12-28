@@ -89,12 +89,12 @@ const updateDayEevnt = (obj,e,year,month,day) => {
     method: 'POST',
     success: function (res) {
       if (res.statusCode == 200 && res.data.status == 0) {
-        let idx = 0;
+        let idx = 0
+        monthData.last_event_time = res.data.last_event_time
         for (let i in monthData.days) {        
           if (monthData.days[i].day == day){
             monthData.days[i][attr_name] = status
-            monthData.last_event_time = res.data.last_event_time
-            idx = i;
+            idx = i
           }
         }
         Storage.sync.set(queryMonth, monthData)
