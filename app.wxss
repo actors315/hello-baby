@@ -1,3 +1,6 @@
+/*font-awesome*/
+@import './static/wxss/font-awesome.wxss';
+
 page {
   background-color: #fff;
   display: flex;
@@ -109,6 +112,22 @@ page {
 
 .margin-right{
   margin-right: 50rpx;
+}
+
+.mr5{
+  margin-right: 5rpx;
+}
+
+.mr10 {
+  margin-right: 10rpx;
+}
+
+.lh40{
+  line-height: 40rpx;
+}
+
+.fs15 {
+  font-size: 15rpx;
 }
 
 .fs24 {

@@ -16,19 +16,25 @@
             <view wx:if="{{hasEmptyGrid}}" class="grid white-color box box-align-center box-pack-center" wx:for="{{empytGrids}}" wx:key="{{index}}" data-idx="{{index}}">
             </view>
             <view class="grid white-color box box-align-center box-pack-center" wx:for="{{days}}" wx:key="{{index}}" data-idx="{{index}}" bindtap="tapDayItem">
-                <view class="day {{item.choosed ? 'border-radius pink-bg' : ''}} box box-align-center box-pack-center">{{item.day}}</view>
+                <view class="day {{item.menstruation ? 'mens-bg':''}} {{item.easy ? 'easyp-ft':''}} {{item.choosed ? 'border-radius pink-bg' : ''}} box box-align-center box-pack-center">
+                <view class="{{item.egg ? 'fa fa-venus-mars fs15 egg-ft':''}}"></view>
+                {{item.day}}
+                <view class="{{item.makeLove ? 'fa fa-heart fs15 love-ft':''}}"></view>
+                </view>
             </view>
         </view>
     </view>
-    <view class="box box-pack-between">
-      <view class="day border-radius purple-bg"></view>
-      <text class="day lh60">排卵</text>
-      <view class="day border-radius purple-bg"></view>
-      <text class="day lh60">易孕</text>
-      <view class="day purple-bg"></view>
-      <text class="day lh60">月经</text>
-      <view class="day border-radius purple-bg"></view>
-      <text class="day lh60">啪啪</text>
+    <view class="box box-pack-between fs28">
+      <view class="mark safe-bg mr5"></view>
+      <text class="mark lh40 mr10">安全</text>
+      <view class="mark easyp-bg mr5"></view>
+      <text class="mark lh40 mr10">易孕</text>
+      <view class="mark mens-bg mr5"></view>
+      <text class="mark lh40 mr10">月经</text>
+      <view class="mark fa fa-venus-mars egg-ft fs36"></view>
+      <text class="mark lh40 mr10">排卵</text>   
+      <view class="mark lh40 fa fa-heart love-ft fs36"></view>
+      <text class="mark lh40">啪啪</text>
     </view>
 </view>
 
@@ -49,18 +55,22 @@
 
 <view wx:if="{{showEvent}}" class="box box-tb event-content">
   <view class="picker-day">{{picker_year}}年{{picker_month}}月{{picker_day}}日</view>
-  <view class="flex" indicator-style="height: 50px;" style="width: 100%; height: 150px;">
+  <view class="flex" indicator-style="height: 50px;" style="width: 100%; height: 185px;">
   <view class="box box-pack-between">
   <label class="margin-left">爱爱了</label>
   <switch class="margin-right" data-event="1" data-attr="makeLove" checked="{{makeLove}}" bindchange="switchEvent"/>
   </view>
-  <view class="box box-pack-between">
+  <view wx:if="{{!menstruationIn}}" class="box box-pack-between">
   <label class="margin-left">大姨妈来了</label>
   <switch class="margin-right" data-event="2" data-attr="menstruation" checked="{{menstruation}}" bindchange="switchEvent"/>
   </view>
+  <view wx:if="{{menstruationIn}}" class="box box-pack-between">
+  <label class="margin-left">大姨妈走了</label>
+  <switch class="margin-right" data-event="3" data-attr="menstruation_off" checked="{{menstruation_off}}" bindchange="switchEvent"/>
+  </view>
   <view class="box box-pack-between">
   <label class="margin-left">怀孕了</label>
-  <switch class="margin-right" data-event="3" data-attr="pregnant" checked="{{pregnant}}" bindchange="switchEvent"/>
+  <switch class="margin-right" data-event="10" data-attr="pregnant" checked="{{pregnant}}" bindchange="switchEvent"/>
   </view>
   </view>
 </view>

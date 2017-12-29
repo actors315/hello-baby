@@ -43,6 +43,11 @@
     font-size: 26rpx;
     font-weight: 200;
 }
+.mark {
+    min-width: 40rpx;
+    height: 40rpx;
+    color: #88d2ac;
+}
 .border-radius {
     border-radius: 50%;
     position: relative;
@@ -53,8 +58,38 @@
 .pink-bg {
     background-color: #ff629a;
 }
+
 .purple-bg {
     background-color: #b8b8f1;
+}
+
+/*易孕*/
+.easyp-ft {
+  color: #DF9FEA;
+}
+.easyp-bg {
+  background-color: #DF9FEA;
+}
+
+/*安全*/
+.safe-bg {
+  background-color: #88d2ac;
+}
+
+/*月经*/
+.mens-bg {
+  background-color: #F089BE;
+  color:#ffffff;
+}
+
+/*排卵*/
+.egg-ft {
+  color: #b8b8f1;
+}
+
+/*啪啪*/
+.love-ft {
+  color: #F089BE;
 }
 
 .right-triangle::after {
@@ -168,15 +203,12 @@
   margin-left: 50rpx;
   font-size: 26rpx;
 	text-align: left;
+  height: 42rpx;
 }
 
 .event-content {
   color: #88d2ac;
-  line-height: 45px;
-  font-size: 36rpx;
+  line-height: 42px;
+  font-size: 34rpx;
   font-weight: 200;
-}
-
-.lh60{
-  line-height: 60rpx;
 }
