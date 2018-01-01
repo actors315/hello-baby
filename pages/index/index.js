@@ -15,8 +15,7 @@ const conf = {
 		showPicker: false,
     showEvent: false
 	},
-	onLoad() {
-    
+  onLoad() {    
 		const date = new Date();
 		const cur_year = date.getFullYear();
 		const cur_month = date.getMonth() + 1;
@@ -27,10 +26,8 @@ const conf = {
 			cur_month,
 			weeks_ch
 		});
+    this.calculateDays(cur_year, cur_month);
 	},
-  onReady(){
-    this.calculateDays(this.data.cur_year, this.data.cur_month);
-  },
 	getFirstDayOfWeek(year, month) {
 		return new Date(Date.UTC(year, month - 1, 1)).getDay();
 	},
@@ -94,12 +91,16 @@ const conf = {
 		}
 	},
 	tapDayItem(e) {
-		const idx = e.currentTarget.dataset.idx;
-		const days = this.data.days;
+		let idx = e.currentTarget.dataset.idx;
+    let days = this.data.days;
+    let menstruationIn = false,tempMe = false;
 		for(let i in days){
       days[i].choosed = false;
     }
     days[idx].choosed = !days[ idx ].choosed;
+    if (days[idx].menstruation == 2){
+      menstruationIn = true
+    }
 
     this.setData({
       days,
@@ -110,7 +111,8 @@ const conf = {
       picker_day: days[idx].day,
       makeLove: parseInt(days[idx].makeLove),
       menstruation: parseInt(days[idx].menstruation),
-      pregnant: parseInt(days[idx].pregnant)
+      pregnant: parseInt(days[idx].pregnant),
+      menstruationIn: menstruationIn
     });
 	},
 	chooseYearAndMonth() {

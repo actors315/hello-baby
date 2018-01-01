@@ -4,7 +4,7 @@ const Storage = require('./utils/storage.js');
 
 App({
   onLaunch: function () {
-    this.checkLogin();
+    //this.checkLogin();
   },
   checkLogin:function(callback){
     if (this.globalData.hasLogin === false){
