@@ -16,7 +16,7 @@
             <view wx:if="{{hasEmptyGrid}}" class="grid white-color box box-align-center box-pack-center" wx:for="{{empytGrids}}" wx:key="{{index}}" data-idx="{{index}}">
             </view>
             <view class="grid white-color box box-align-center box-pack-center" wx:for="{{days}}" wx:key="{{index}}" data-idx="{{index}}" bindtap="tapDayItem">
-                <view class="day {{item.menstruation ? 'mens-bg':''}} {{item.easy ? 'easyp-ft':''}} {{item.choosed ? 'border-radius pink-bg' : ''}} box box-align-center box-pack-center">
+                <view class="day {{item.menstruation || item.menstruation_off ? 'mens-bg':''}} {{item.easy ? 'easyp-ft':''}} {{item.choosed ? 'border-radius pink-bg' : ''}} box box-align-center box-pack-center">
                 <view class="{{item.egg ? 'fa fa-venus-mars fs15 egg-ft':''}}"></view>
                 {{item.day}}
                 <view class="{{item.makeLove ? 'fa fa-heart fs15 love-ft':''}}"></view>

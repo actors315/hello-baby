@@ -98,10 +98,10 @@ const conf = {
       days[i].choosed = false;
     }
     days[idx].choosed = !days[ idx ].choosed;
-    if (days[idx].menstruation == 2){
+    if (days[idx].menstruation == 2 || days[idx].menstruation_off == 1){
       menstruationIn = true
     }
-
+    console.log(days[idx]);
     this.setData({
       days,
       showEvent: true,
@@ -111,6 +111,7 @@ const conf = {
       picker_day: days[idx].day,
       makeLove: parseInt(days[idx].makeLove),
       menstruation: parseInt(days[idx].menstruation),
+      menstruation_off: parseInt(days[idx].menstruation_off),
       pregnant: parseInt(days[idx].pregnant),
       menstruationIn: menstruationIn
     });

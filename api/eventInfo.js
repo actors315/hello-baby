@@ -49,6 +49,7 @@ const queryMonthEvent = (obj,year,month) => {
             if (i in data) {
               monthData.days[i].makeLove = data[i]['make_love'] == undefined ? 0 : parseInt(data[i]['make_love'])
               monthData.days[i].menstruation = data[i]['menstruation'] == undefined ? 0 : parseInt(data[i]['menstruation'])
+              monthData.days[i].menstruation_off = data[i]['menstruation_off'] == undefined ? 0 : parseInt(data[i]['menstruation_off'])
               monthData.days[i].pregnant = data[i]['pregnant'] == undefined ? 0 : parseInt(data[i]['pregnant'])
             }
           }
