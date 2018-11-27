@@ -77,7 +77,7 @@ const updateDayEevnt = (obj,e,year,month,day) => {
 
   let monthData = Storage.sync.get(queryMonth)
 
-  let date = year + '' + month + '' + Util.formatNumber(day);
+  let date = year + '' + Util.formatNumber(month) + '' + Util.formatNumber(day);
 
   wx.request({
     url: Api.event.update,

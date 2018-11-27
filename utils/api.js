@@ -2,7 +2,7 @@
  * 所有接口地址
  */
 
-let isTest = true;
+let isTest = false;
 
 const testApi = {
   user:{
